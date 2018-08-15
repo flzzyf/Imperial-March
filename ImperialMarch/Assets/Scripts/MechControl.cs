@@ -5,18 +5,16 @@ using UnityEngine;
 public class MechControl : MonoBehaviour
 {
     public float speed = 3;
+    public float lowerPartRotationSpeed = 3;
+
+    public float scanningDistance = 10f;
+    public float scanningCount = 5;
 
     public Transform lowerPart;
-    public float lowerPartRotationSpeed = 3;
     Animator lowerPartAnimator;
     public Transform upperPart;
 
-    Vector3 mouseWorldPoint;
-
-    public GameObject particle_muzzleFlash;
-    public GameObject particle_impact;
-
-    public Transform[] launchPos;
+    public GameObject[] weapons;
 
     void Start ()
     {
@@ -25,8 +23,6 @@ public class MechControl : MonoBehaviour
 	
 	void Update ()
     {
-        mouseWorldPoint = GetMouseWorldPoint();
-
         LowerPart_Movement();
 
         UpperPart_Rotate();
@@ -39,7 +35,7 @@ public class MechControl : MonoBehaviour
         float inputH = Input.GetAxis("Horizontal");
         float inputV = Input.GetAxis("Vertical");
 
-        Vector3 dir = new Vector3(inputH, 0, inputV).normalized;
+        Vector3 dir = new Vector3(-inputH, 0, -inputV).normalized;
         if (dir != Vector3.zero)
         {
             lowerPartAnimator.SetBool("walking", true);
@@ -57,54 +53,38 @@ public class MechControl : MonoBehaviour
 
     void UpperPart_Rotate()
     {
-        Vector3 dir = mouseWorldPoint - transform.position;
-
-        LookAtTarget(upperPart, dir);
+        LookAtTarget(upperPart, zyf.GetMouseWorldPoint() - transform.position);
     }
 
     void SearchTarget()
     {
-        Vector3 dir = mouseWorldPoint - transform.position;
-
-        Vector3 origin = transform.position;
-        origin.y = 1;
-        dir.y = 1;
+        Vector3 dir;
+        dir.y = 0;
 
         RaycastHit hit;
-        if (Physics.Raycast(origin, dir, out hit))
+
+        Vector3 origin;
+        for (int i = 0; i < weapons.Length; i++)
         {
-            if(hit.collider.tag == "Enemy")
+            origin = weapons[i].transform.position;
+            origin.y = 0;
+            dir = zyf.GetMouseWorldPoint() - origin;
+
+            for (int j = 0; j < scanningCount; j++)
             {
-                hit.collider.GetComponent<Rigidbody>().AddForce(dir.normalized * Time.deltaTime * 20, ForceMode.Impulse);
+                origin.y += 1f;
 
-                for (int i = 0; i < launchPos.Length; i++)
+                if (Physics.Raycast(origin, dir, out hit))
                 {
-                    GameObject go = Instantiate(particle_muzzleFlash, launchPos[i].position, launchPos[i].rotation);
-                    float lifetime2 = go.GetComponent<ParticleSystem>().main.duration;
-                    Destroy(go, lifetime2);
+                    if (hit.collider.tag == "Enemy")
+                    {
+                        weapons[0].GetComponent<GeneralWeapon>().Trigger();
+                    }
                 }
-
-                GameObject go2 = Instantiate(particle_impact, hit.point, Quaternion.LookRotation(hit.normal));
-                float lifetime = go2.GetComponent<ParticleSystem>().main.duration;
-                Destroy(go2, lifetime);
             }
         }
 
-        Debug.DrawRay(origin, dir);
-    }
-
-    //获取鼠标在世界中的位置
-    Vector3 GetMouseWorldPoint()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            return hit.point;
-        }
-
-        return Vector3.zero;
+        //Debug.DrawRay(origin, dir);
     }
 
     public void FootStep()
@@ -122,5 +102,24 @@ public class MechControl : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(_dir);
         Vector3 rotation = Quaternion.Lerp(_transform.rotation, lookRotation, lowerPartRotationSpeed * Time.deltaTime).eulerAngles;
         _transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+    }
+
+    void OnDrawGizmos()
+    {
+        Vector3 origin;
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            origin = weapons[i].transform.position;
+            origin.y = 0;
+            Vector3 target = origin + Vector3.forward * scanningDistance;
+
+            for (int j = 0; j < scanningCount; j++)
+            {
+                origin.y += 1f;
+                target.y += 1f;
+
+                Gizmos.DrawLine(origin, target);
+            }
+        }
     }
 }
