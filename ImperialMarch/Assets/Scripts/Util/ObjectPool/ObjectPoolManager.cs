@@ -8,14 +8,6 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     public List<Pool> pools;
     public Dictionary<string, Transform> poolParent;
 
-    [System.Serializable]
-    public class Pool
-    {
-        public string tag;
-        public GameObject prefab;
-        public int size;
-    }
-
     void Start()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -31,7 +23,6 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
-                //obj.GetComponent<IPooledObject>().objectTag = pool.tag;
                 obj.SetActive(false);
                 obj.transform.SetParent(parent);
                 objPool.Enqueue(obj);
@@ -63,13 +54,20 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
         return obj;
     }
-
+    //放回物体
     public void PutbackObject(GameObject _obj)
     {
         _obj.SetActive(false);
 
-        //string tag = _obj.GetComponent<IPooledObject>().objectTag;
+        if (_obj.GetComponent<IPooledObject>() != null)
+            _obj.GetComponent<IPooledObject>().OnObjectPutback();
+    }
 
-        //poolDictionary[tag].
+    [System.Serializable]
+    public class Pool
+    {
+        public string tag;
+        public GameObject prefab;
+        public int size = 20;
     }
 }

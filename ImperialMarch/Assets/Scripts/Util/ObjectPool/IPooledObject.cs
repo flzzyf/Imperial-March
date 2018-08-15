@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class IPooledObject : MonoBehaviour
 {
-    [HideInInspector]
-    public string objectTag;
-
     public virtual void OnObjectSpawned() { }
 	
+    public virtual void OnObjectPutback() { }
 }

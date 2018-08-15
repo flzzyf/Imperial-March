@@ -9,6 +9,11 @@ public class Weapon_ImperialWrath : GeneralWeapon
     {
         base.Trigger();
 
+        StartCoroutine(IELaunch());
+    }
+
+    IEnumerator IELaunch()
+    {
         Vector3 dir = zyf.GetMouseWorldPoint() - transform.position;
 
         Vector3 origin = transform.position;
@@ -18,6 +23,7 @@ public class Weapon_ImperialWrath : GeneralWeapon
         RaycastHit hit;
         if (Physics.Raycast(origin, dir, out hit))
         {
+            //命中
             if (hit.collider.tag == "Enemy")
             {
                 hit.collider.GetComponent<Rigidbody>().AddForce(dir.normalized * Time.deltaTime * 20, ForceMode.Impulse);
@@ -32,8 +38,18 @@ public class Weapon_ImperialWrath : GeneralWeapon
                 GameObject go2 = Instantiate(particle_impact, hit.point, Quaternion.LookRotation(hit.normal));
                 float lifetime = go2.GetComponent<ParticleSystem>().main.duration;
                 Destroy(go2, lifetime);
+
+                SoundManager.Instance().PlayAtPoint("ImperialWrath_Launch", transform.position);
+
+                for (int i = 0; i < 3; i++)
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    SoundManager.Instance().PlayAtPoint("ImperialWrath_Impact", hit.point);
+                }
             }
         }
+
+        
     }
 
 }
