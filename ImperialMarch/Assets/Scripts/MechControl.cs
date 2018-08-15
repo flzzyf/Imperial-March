@@ -7,8 +7,7 @@ public class MechControl : MonoBehaviour
     public float speed = 3;
     public float lowerPartRotationSpeed = 3;
 
-    public float scanningDistance = 10f;
-    public float scanningCount = 5;
+
 
     public Transform lowerPart;
     Animator lowerPartAnimator;
@@ -58,33 +57,10 @@ public class MechControl : MonoBehaviour
 
     void SearchTarget()
     {
-        Vector3 dir;
-        dir.y = 0;
-
-        RaycastHit hit;
-
-        Vector3 origin;
         for (int i = 0; i < weapons.Length; i++)
         {
-            origin = weapons[i].transform.position;
-            origin.y = 0;
-            dir = zyf.GetMouseWorldPoint() - origin;
-
-            for (int j = 0; j < scanningCount; j++)
-            {
-                origin.y += 1f;
-
-                if (Physics.Raycast(origin, dir, out hit))
-                {
-                    if (hit.collider.tag == "Enemy")
-                    {
-                        weapons[0].GetComponent<GeneralWeapon>().Trigger();
-                    }
-                }
-            }
+            weapons[i].GetComponent<GeneralWeapon>().SearchTarget();
         }
-
-        //Debug.DrawRay(origin, dir);
     }
 
     public void FootStep()
@@ -104,22 +80,4 @@ public class MechControl : MonoBehaviour
         _transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
     }
 
-    void OnDrawGizmos()
-    {
-        Vector3 origin;
-        for (int i = 0; i < weapons.Length; i++)
-        {
-            origin = weapons[i].transform.position;
-            origin.y = 0;
-            Vector3 target = origin + Vector3.forward * scanningDistance;
-
-            for (int j = 0; j < scanningCount; j++)
-            {
-                origin.y += 1f;
-                target.y += 1f;
-
-                Gizmos.DrawLine(origin, target);
-            }
-        }
-    }
 }

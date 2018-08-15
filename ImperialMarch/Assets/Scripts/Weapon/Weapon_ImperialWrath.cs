@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Weapon_ImperialWrath : GeneralWeapon
 {
+    public GameObject missile;
+
+    public override void Trigger()
+    {
+        base.Trigger();
+
+    }
 
     public override void Launch()
     {
-        base.Trigger();
+        base.Launch();
 
         StartCoroutine(IELaunch());
     }
@@ -21,16 +28,16 @@ public class Weapon_ImperialWrath : GeneralWeapon
         dir.y = 1;
 
         RaycastHit hit;
-        if (Physics.Raycast(origin, dir, out hit))
+        if (Physics.Raycast(origin, dir, out hit, range))
         {
             //命中
             if (hit.collider.tag == "Enemy")
             {
-                hit.collider.GetComponent<Rigidbody>().AddForce(dir.normalized * Time.deltaTime * 20, ForceMode.Impulse);
-
+                hit.collider.GetComponent<Rigidbody>().AddForce(dir.normalized * Time.deltaTime * 150, ForceMode.Impulse);
+                //创建开火粒子
                 for (int i = 0; i < launchPos.Length; i++)
                 {
-                    GameObject go = Instantiate(particle_muzzleFlash, launchPos[i].position, launchPos[i].rotation);
+                    GameObject go = Instantiate(particle_launch, launchPos[i].position, launchPos[i].rotation);
                     float lifetime2 = go.GetComponent<ParticleSystem>().main.duration;
                     Destroy(go, lifetime2);
                 }
@@ -39,16 +46,13 @@ public class Weapon_ImperialWrath : GeneralWeapon
                 float lifetime = go2.GetComponent<ParticleSystem>().main.duration;
                 Destroy(go2, lifetime);
 
-                SoundManager.Instance().PlayAtPoint("ImperialWrath_Launch", transform.position);
 
-                for (int i = 0; i < 3; i++)
-                {
-                    yield return new WaitForSeconds(0.1f);
-                    SoundManager.Instance().PlayAtPoint("ImperialWrath_Impact", hit.point);
-                }
+                SoundManager.Instance().PlayAtPoint(sound_impact, hit.point);
+
             }
         }
 
+        yield return null;
         
     }
 

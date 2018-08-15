@@ -80,7 +80,7 @@ public class SoundManager : Singleton<SoundManager>
         s.source.Stop();
     }
 
-    public void PlayAtPoint(string _name, Vector3 _pos)
+    public GameObject PlayAtPoint(string _name, Vector3 _pos)
     {
         Sound s = Array.Find(sounds, sound => sound.name == _name);
 
@@ -90,6 +90,8 @@ public class SoundManager : Singleton<SoundManager>
         go.GetComponent<AudioSource>().Play();
 
         StartCoroutine(PutbackWhenSoundStop(go));
+
+        return go;
     }
 
     IEnumerator PutbackWhenSoundStop(GameObject _go)
