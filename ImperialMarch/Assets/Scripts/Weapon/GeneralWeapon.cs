@@ -22,28 +22,18 @@ public class GeneralWeapon : MonoBehaviour
     public string sound_launch;
     public string sound_impact;
 
-    public float scanningCount = 5;
+    public float forceAmount = 1;
 
     public virtual void SearchTarget()
     {
         Vector3 origin = transform.position;
-        origin.y = 0;
-
-        Vector3 lineOrigin = transform.position;
-        lineOrigin.y = 0.1f;
 
         RaycastHit hit;
-        
-        for (int j = 0; j < scanningCount; j++)
+        if (Physics.Raycast(origin, transform.forward, out hit, range))
         {
-            origin.y += 1f;
-
-            if (Physics.Raycast(origin, transform.forward, out hit, range))
+            if (hit.collider.tag == "Enemy")
             {
-                if (hit.collider.tag == "Enemy")
-                {
-                    Trigger();
-                }
+                Trigger();
             }
         }
     }
@@ -79,7 +69,9 @@ public class GeneralWeapon : MonoBehaviour
         Vector3 origin = transform.position;
         origin.y = 0;
 
-        Vector3 target = origin + transform.forward * range;
+        Vector3 dir = transform.forward;
+        dir.y = 0;
+        Vector3 target = origin + dir.normalized * range;
 
         Gizmos.color = Color.green;
         for (int i = 0; i < 3; i++)
@@ -87,15 +79,6 @@ public class GeneralWeapon : MonoBehaviour
             DrawRayEnhanced(origin, target + transform.right * splashRadius);
             DrawRayEnhanced(origin, target + -transform.right * splashRadius);
             DrawRayEnhanced(target + transform.right * splashRadius, target + -transform.right * splashRadius);
-        }
-
-        for (int j = 0; j < scanningCount; j++)
-        {
-            origin.y += 1f;
-            target.y += 1f;
-
-            Gizmos.color = Color.red;
-            DrawRayEnhanced(origin, target);
         }
     }
 

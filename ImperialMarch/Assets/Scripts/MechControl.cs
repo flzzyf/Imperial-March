@@ -6,6 +6,8 @@ public class MechControl : MonoBehaviour
 {
     public float speed = 3;
     public float lowerPartRotationSpeed = 3;
+    public float upperPartRotationSpeed = 2;
+    public float weaponRotationSpeed = 1;
 
     public Transform lowerPart;
     Animator lowerPartAnimator;
@@ -29,6 +31,14 @@ public class MechControl : MonoBehaviour
         UpperPart_Rotate();
 
         SearchTarget();
+
+        if(Input.GetMouseButton(0))
+        {
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                weapons[i].GetComponent<GeneralWeapon>().Trigger();
+            }
+        }
 	}
     //下身移动
     void LowerPart_Movement()
@@ -45,7 +55,7 @@ public class MechControl : MonoBehaviour
             Vector3 movement = dir * speed * Time.deltaTime;
             transform.Translate(movement, Space.World);
 
-            LookAtTarget(lowerPart, dir);
+            LookAtTarget(lowerPart, dir, lowerPartRotationSpeed);
         }
         else
         {
@@ -59,9 +69,9 @@ public class MechControl : MonoBehaviour
         //主武器旋转
         for (int i = 0; i < 2; i++)
         {
-            LookAtTargetPos(weapon_main[i], zyf.GetMouseWorldPoint());
+            LookAtTargetPos(weapon_main[i], zyf.GetMouseWorldPoint(), weaponRotationSpeed);
         }
-        LookAtTargetPos(upperPart, zyf.GetMouseWorldPoint());
+        LookAtTargetPos(upperPart, zyf.GetMouseWorldPoint(), upperPartRotationSpeed);
     }
 
     void SearchTarget()
@@ -82,10 +92,10 @@ public class MechControl : MonoBehaviour
 
     }
 
-    void LookAtTarget(Transform _origin, Vector3 _dir, bool _2d = false)
+    void LookAtTarget(Transform _origin, Vector3 _dir, float _rotationSpeed, bool _2d = false)
     {
         Quaternion lookRotation = Quaternion.LookRotation(_dir);
-        Vector3 rotation = Quaternion.Lerp(_origin.rotation, lookRotation, lowerPartRotationSpeed * Time.deltaTime).eulerAngles;
+        Vector3 rotation = Quaternion.Lerp(_origin.rotation, lookRotation, _rotationSpeed * Time.deltaTime).eulerAngles;
         if(_2d)
         {
             _origin.rotation = Quaternion.Euler(0f, rotation.y, 0f);
@@ -96,10 +106,10 @@ public class MechControl : MonoBehaviour
         }
     }
 
-    void LookAtTargetPos(Transform _origin, Vector3 _pos)
+    void LookAtTargetPos(Transform _origin, Vector3 _pos, float _rotationSpeed, bool _2d = false)
     {
         Vector3 dir = _pos - _origin.position;
 
-        LookAtTarget(_origin, dir);
+        LookAtTarget(_origin, dir, _rotationSpeed, _2d);
     }
 }

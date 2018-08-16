@@ -11,16 +11,25 @@ public class Missile : IPooledObject
     public float lifetime = 2;
 
     [HideInInspector]
-    public bool hitTarget = false;
+    public GameObject hitTarget;
+
+    public Vector3 direction;
 	
 	void Update () 
 	{
         RaycastHit hit;
         if(Physics.Raycast(transform.position, transform.forward, out hit, speed * Time.deltaTime))
         {
-            hitTarget = true;
+            direction = hit.normal.normalized;
+
+            hitTarget = hit.collider.gameObject;
 
             ObjectPoolManager.Instance().PutbackObject(gameObject);
+
+            if (hit.collider.tag == "Enemy")
+            {
+                
+            }
         }
 
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
@@ -41,7 +50,7 @@ public class Missile : IPooledObject
 
         StartCoroutine(AutomaticPutback());
 
-        hitTarget = false;
+        hitTarget = null;
     }
 
     IEnumerator AutomaticPutback()
