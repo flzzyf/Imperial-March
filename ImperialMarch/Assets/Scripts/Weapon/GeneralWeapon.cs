@@ -34,7 +34,8 @@ public class GeneralWeapon : MonoBehaviour
         Vector3 lineOrigin = transform.position;
         lineOrigin.y = 0.1f;
         //设置扫描线位置
-        lineRenderer.transform.position = lineOrigin;
+        //lineRenderer.transform.position = lineOrigin;
+
         //lineRenderer.SetPosition(0, lineOrigin);
         //lineRenderer.SetPosition(1, origin + transform.forward * range);
 

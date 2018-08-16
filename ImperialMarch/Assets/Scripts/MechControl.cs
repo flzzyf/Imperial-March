@@ -7,13 +7,15 @@ public class MechControl : MonoBehaviour
     public float speed = 3;
     public float lowerPartRotationSpeed = 3;
 
-
-
     public Transform lowerPart;
     Animator lowerPartAnimator;
     public Transform upperPart;
 
     public GameObject[] weapons;
+
+    public Transform[] weapon_main;
+
+    bool walking;
 
     void Start ()
     {
@@ -28,7 +30,7 @@ public class MechControl : MonoBehaviour
 
         SearchTarget();
 	}
-
+    //下身移动
     void LowerPart_Movement()
     {
         float inputH = Input.GetAxis("Horizontal");
@@ -37,6 +39,7 @@ public class MechControl : MonoBehaviour
         Vector3 dir = new Vector3(-inputH, 0, -inputV).normalized;
         if (dir != Vector3.zero)
         {
+            walking = true;
             lowerPartAnimator.SetBool("walking", true);
 
             Vector3 movement = dir * speed * Time.deltaTime;
@@ -46,13 +49,19 @@ public class MechControl : MonoBehaviour
         }
         else
         {
+            walking = false;
             lowerPartAnimator.SetBool("walking", false);
         }
     }
-
+    //上身旋转
     void UpperPart_Rotate()
     {
-        LookAtTarget(upperPart, zyf.GetMouseWorldPoint() - transform.position);
+        //主武器旋转
+        for (int i = 0; i < 2; i++)
+        {
+            LookAtTargetPos(weapon_main[i], zyf.GetMouseWorldPoint());
+        }
+        LookAtTargetPos(upperPart, zyf.GetMouseWorldPoint());
     }
 
     void SearchTarget()
@@ -73,11 +82,18 @@ public class MechControl : MonoBehaviour
 
     }
 
-    void LookAtTarget(Transform _transform, Vector3 _dir)
+    void LookAtTarget(Transform _origin, Vector3 _dir)
     {
         Quaternion lookRotation = Quaternion.LookRotation(_dir);
-        Vector3 rotation = Quaternion.Lerp(_transform.rotation, lookRotation, lowerPartRotationSpeed * Time.deltaTime).eulerAngles;
-        _transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        Vector3 rotation = Quaternion.Lerp(_origin.rotation, lookRotation, lowerPartRotationSpeed * Time.deltaTime).eulerAngles;
+        //_transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        _origin.rotation = Quaternion.Euler(rotation);
     }
 
+    void LookAtTargetPos(Transform _origin, Vector3 _pos)
+    {
+        Vector3 dir = _pos - _origin.position;
+
+        LookAtTarget(_origin, dir);
+    }
 }
