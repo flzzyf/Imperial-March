@@ -82,12 +82,18 @@ public class MechControl : MonoBehaviour
 
     }
 
-    void LookAtTarget(Transform _origin, Vector3 _dir)
+    void LookAtTarget(Transform _origin, Vector3 _dir, bool _2d = false)
     {
         Quaternion lookRotation = Quaternion.LookRotation(_dir);
         Vector3 rotation = Quaternion.Lerp(_origin.rotation, lookRotation, lowerPartRotationSpeed * Time.deltaTime).eulerAngles;
-        //_transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-        _origin.rotation = Quaternion.Euler(rotation);
+        if(_2d)
+        {
+            _origin.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        }
+        else
+        {
+            _origin.rotation = Quaternion.Euler(rotation);
+        }
     }
 
     void LookAtTargetPos(Transform _origin, Vector3 _pos)

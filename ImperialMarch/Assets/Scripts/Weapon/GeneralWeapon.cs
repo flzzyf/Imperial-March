@@ -24,8 +24,6 @@ public class GeneralWeapon : MonoBehaviour
 
     public float scanningCount = 5;
 
-    public LineRenderer lineRenderer;
-
     public virtual void SearchTarget()
     {
         Vector3 origin = transform.position;
@@ -33,11 +31,6 @@ public class GeneralWeapon : MonoBehaviour
 
         Vector3 lineOrigin = transform.position;
         lineOrigin.y = 0.1f;
-        //设置扫描线位置
-        //lineRenderer.transform.position = lineOrigin;
-
-        //lineRenderer.SetPosition(0, lineOrigin);
-        //lineRenderer.SetPosition(1, origin + transform.forward * range);
 
         RaycastHit hit;
         
@@ -112,5 +105,12 @@ public class GeneralWeapon : MonoBehaviour
         {
             Gizmos.DrawLine(_origin, _target);
         }
+    }
+
+    public void CreateParticle(GameObject _particle, Transform _transform)
+    {
+        GameObject go = Instantiate(_particle, _transform.position, _transform.rotation);
+        float lifetime = go.GetComponent<ParticleSystem>().main.duration;
+        Destroy(go, lifetime);
     }
 }
