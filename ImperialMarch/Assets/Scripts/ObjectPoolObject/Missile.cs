@@ -15,7 +15,7 @@ public class Missile : IPooledObject
 
     [HideInInspector]
     public GameObject hitTarget;
-
+    [HideInInspector]
     public Vector3 direction;
     [HideInInspector]
     public bool isActive;

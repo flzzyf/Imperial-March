@@ -14,8 +14,8 @@ public class GeneralWeapon : MonoBehaviour
 
     float lastFireTime = 0;
 
-    public GameObject particle_launch;
-    public GameObject particle_impact;
+    public string particle_launch;
+    public string particle_impact;
 
     public Transform[] launchPos;
 
@@ -95,10 +95,17 @@ public class GeneralWeapon : MonoBehaviour
         }
     }
 
-    public void CreateParticle(GameObject _particle, Transform _transform)
+    public void CreateParticle(string _particle, Transform _transform)
     {
-        GameObject go = Instantiate(_particle, _transform.position, _transform.rotation);
-        float lifetime = go.GetComponent<ParticleSystem>().main.duration;
-        Destroy(go, lifetime);
+        GameObject go = ObjectPoolManager.Instance().SpawnObject(_particle, _transform.position, _transform.rotation);
+        float lifetime = go.GetComponent<OPO_Particle>().mainParticle.GetComponent<ParticleSystem>().main.duration;
+
+        StartCoroutine(PutbackParticle(go, lifetime));
+    }
+
+    IEnumerator PutbackParticle(GameObject _go, float _lifetime)
+    {
+        yield return new WaitForSeconds(_lifetime);
+        ObjectPoolManager.Instance().PutbackObject(_go);
     }
 }

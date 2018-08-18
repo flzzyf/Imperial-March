@@ -90,7 +90,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -908,6 +908,88 @@ Transform:
   m_Father: {fileID: 522830075}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -0.000015258788, y: -90.00001, z: -180}
+--- !u!1001 &283636227
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.705
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.149
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4312457296854680, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 198548003951887564, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198548003951887564, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198646614927754410, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198646614927754410, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198021560293928580, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198027380304827236, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198646614927754410, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198548003951887564, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8,
+        type: 2}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &293765750
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,6 +1704,12 @@ MonoBehaviour:
     size: 100
   - tag: missile_bee
     prefab: {fileID: 1813661338935100, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+    size: 100
+  - tag: ImperialWrath_Launch
+    prefab: {fileID: 1273409315628996, guid: dca7d5e08f8b1e14795fc5b12fa8c9e8, type: 2}
+    size: 100
+  - tag: ImperialWrath_Impact
+    prefab: {fileID: 1052409457463192, guid: ebd1accfa67e5a7429127ae325413a45, type: 2}
     size: 100
 --- !u!114 &568505248
 MonoBehaviour:
@@ -4009,10 +4097,8 @@ MonoBehaviour:
   range: 20
   attackCount: 1
   attackInterval: 0.5
-  particle_launch: {fileID: 1578395832484752, guid: c605f637d70646344ace257cab5f1ce7,
-    type: 2}
-  particle_impact: {fileID: 1052409457463192, guid: ebd1accfa67e5a7429127ae325413a45,
-    type: 2}
+  particle_launch: ImperialWrath_Launch
+  particle_impact: ImperialWrath_Impact
   launchPos:
   - {fileID: 157751283}
   sound_launch: ImperialWrath_Launch

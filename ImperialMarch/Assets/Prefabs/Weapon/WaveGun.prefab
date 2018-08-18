@@ -207,14 +207,11 @@ MonoBehaviour:
   range: 15
   attackCount: 3
   attackInterval: 0.1
-  particle_launch: {fileID: 1578395832484752, guid: c605f637d70646344ace257cab5f1ce7,
-    type: 2}
-  particle_impact: {fileID: 1052409457463192, guid: ebd1accfa67e5a7429127ae325413a45,
-    type: 2}
+  particle_launch: ImperialWrath_Launch
+  particle_impact: ImperialWrath_Impact
   launchPos:
   - {fileID: 4063799877282960}
   sound_launch: ImperialWrath_Launch
   sound_impact: BulletImpact
-  scanningCount: 5
   forceAmount: 3
   prefab_missile: missile
