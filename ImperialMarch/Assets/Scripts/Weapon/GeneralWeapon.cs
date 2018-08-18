@@ -95,6 +95,7 @@ public class GeneralWeapon : MonoBehaviour
         }
     }
 
+    //从对象池创建粒子
     public void CreateParticle(string _particle, Transform _transform)
     {
         GameObject go = ObjectPoolManager.Instance().SpawnObject(_particle, _transform.position, _transform.rotation);
