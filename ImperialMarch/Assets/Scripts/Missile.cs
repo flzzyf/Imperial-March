@@ -7,6 +7,9 @@ public class Missile : IPooledObject
     public float speed = 5;
 
     public GameObject trail;
+    public ParticleSystem particle;
+
+    public GameObject gfx;
 
     public float lifetime = 2;
 
@@ -14,6 +17,8 @@ public class Missile : IPooledObject
     public GameObject hitTarget;
 
     public Vector3 direction;
+    [HideInInspector]
+    public bool isActive;
 	
 	void Update () 
 	{
@@ -31,15 +36,21 @@ public class Missile : IPooledObject
                 
             }
         }
-
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        if(hitTarget == null)
+            transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
 	}
 
     public override void OnObjectPutback()
     {
-        base.OnObjectPutback();
+        gfx.SetActive(false);
 
-        trail.GetComponent<TrailRenderer>().Clear();
+        isActive = false;
+
+        if(trail != null)
+            trail.GetComponent<TrailRenderer>().Clear();
+
+        if (particle != null)
+            particle.enableEmission = false;
 
         StopAllCoroutines();
     }
@@ -47,6 +58,10 @@ public class Missile : IPooledObject
     public override void OnObjectSpawned()
     {
         base.OnObjectSpawned();
+
+        isActive = true;
+
+        gfx.SetActive(true);
 
         StartCoroutine(AutomaticPutback());
 
@@ -57,6 +72,6 @@ public class Missile : IPooledObject
     {
         yield return new WaitForSeconds(lifetime);
 
-        ObjectPoolManager.Instance().PutbackObject(gameObject);
+        OnObjectPutback();
     }
 }

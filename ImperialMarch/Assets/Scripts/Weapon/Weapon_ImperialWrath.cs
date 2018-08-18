@@ -12,18 +12,12 @@ public class Weapon_ImperialWrath : GeneralWeapon
 
         GameObject missile = ObjectPoolManager.Instance().SpawnObject(prefab_missile, launchPos[0].position, launchPos[0].rotation);
 
-        //创建开火粒子
-        for (int i = 0; i < launchPos.Length; i++)
-        {
-            CreateParticle(particle_launch, launchPos[i]);
-        }
-
         StartCoroutine(WaitUntilHit(missile));
     }
 
     IEnumerator WaitUntilHit(GameObject _missile)
     {
-        while(_missile.activeSelf)
+        while(_missile.GetComponent<Missile>().isActive)
         {
             yield return null;
         }

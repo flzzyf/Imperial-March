@@ -43,7 +43,6 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
         GameObject obj = poolDictionary[_tag].Dequeue();
 
-        obj.SetActive(true);
         obj.transform.position = _pos;
         obj.transform.rotation = _rot;
 
@@ -57,8 +56,6 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     //放回物体
     public void PutbackObject(GameObject _obj)
     {
-        _obj.SetActive(false);
-
         if (_obj.GetComponent<IPooledObject>() != null)
             _obj.GetComponent<IPooledObject>().OnObjectPutback();
     }

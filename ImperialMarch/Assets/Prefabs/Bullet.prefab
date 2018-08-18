@@ -398,6 +398,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   trail: {fileID: 1209347994036990}
+  particle: {fileID: 0}
+  gfx: {fileID: 1850789563309730}
+  lifetime: 2
+  hitTarget: {fileID: 0}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!205 &205816746145197134
 LODGroup:
   m_ObjectHideFlags: 1

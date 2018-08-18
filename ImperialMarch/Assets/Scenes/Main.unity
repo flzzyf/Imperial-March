@@ -90,7 +90,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -487,6 +487,53 @@ Transform:
   m_Father: {fileID: 1057261145}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: -0.000015258788, y: -90.00001, z: -180}
+--- !u!4 &157751283 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4063799877282960, guid: dfcedde280603724ab5ef3fa702339dc,
+    type: 2}
+  m_PrefabInternal: {fileID: 2146134679}
+--- !u!1001 &165589517
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 6.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4279628817183108, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &209109214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,6 +1619,9 @@ MonoBehaviour:
     size: 100
   - tag: missile
     prefab: {fileID: 1430861579451688, guid: 014f8d10433a5654cb53d4920a5a83a5, type: 2}
+    size: 100
+  - tag: missile_bee
+    prefab: {fileID: 1813661338935100, guid: 4f92b3c9c31137c49818a5cfcf51f85e, type: 2}
     size: 100
 --- !u!114 &568505248
 MonoBehaviour:
@@ -3857,11 +3907,6 @@ Transform:
   m_Father: {fileID: 747950098}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1332969344 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1635015692260054, guid: dfcedde280603724ab5ef3fa702339dc,
-    type: 2}
-  m_PrefabInternal: {fileID: 2146134679}
 --- !u!4 &1332969346 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4885782306869302, guid: dfcedde280603724ab5ef3fa702339dc,
@@ -3938,11 +3983,42 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1253150309079868, guid: b090bd4ce4b171b4fbe1b5c5b08ebeb0, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b090bd4ce4b171b4fbe1b5c5b08ebeb0, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1353757420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1253150309079868, guid: b090bd4ce4b171b4fbe1b5c5b08ebeb0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1340337313}
+--- !u!114 &1353757421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1353757420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460c8cc0754de8f4988353be5bc35b4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldownTime: 0.8
+  splashRadius: 1
+  range: 20
+  attackCount: 1
+  attackInterval: 0.5
+  particle_launch: {fileID: 1578395832484752, guid: c605f637d70646344ace257cab5f1ce7,
+    type: 2}
+  particle_impact: {fileID: 1052409457463192, guid: ebd1accfa67e5a7429127ae325413a45,
+    type: 2}
+  launchPos:
+  - {fileID: 157751283}
+  sound_launch: ImperialWrath_Launch
+  sound_impact: BulletImpact
+  forceAmount: 3
+  prefab_missile: missile_bee
 --- !u!1 &1358405492
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,7 +5733,7 @@ MonoBehaviour:
   upperPart: {fileID: 842143785}
   weapons:
   - {fileID: 852459128}
-  - {fileID: 1332969344}
+  - {fileID: 1353757420}
   weapon_main:
   - {fileID: 837073073}
   - {fileID: 1674394300}
@@ -6295,6 +6371,10 @@ Prefab:
         type: 2}
       propertyPath: attackCount
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635015692260054, guid: dfcedde280603724ab5ef3fa702339dc, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfcedde280603724ab5ef3fa702339dc, type: 2}

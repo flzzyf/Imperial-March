@@ -62,6 +62,11 @@ public class GeneralWeapon : MonoBehaviour
 
     public virtual void Launch()
     {
+        //创建开火粒子
+        for (int i = 0; i < launchPos.Length; i++)
+        {
+            CreateParticle(particle_launch, launchPos[i]);
+        }
     }
 
     void OnDrawGizmos()
